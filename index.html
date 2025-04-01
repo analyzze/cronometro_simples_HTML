@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronômetro Simples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            max-width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 2em;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cronômetro</h2>
+        <h1 id="timer">00:00:00</h1>
+        <button onclick="startTimer()">Iniciar</button>
+        <button onclick="pauseTimer()">Pausar</button>
+        <button onclick="resetTimer()">Resetar</button>
+    </div>
+
+    <script>
+        let segundos = 0, minutos = 0, horas = 0;
+        let intervalo;
+        let rodando = false;
+        
+        function startTimer() {
+            if (!rodando) {
+                rodando = true;
+                intervalo = setInterval(() => {
+                    segundos++;
+                    if (segundos === 60) { segundos = 0; minutos++; }
+                    if (minutos === 60) { minutos = 0; horas++; }
+                    atualizarDisplay();
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            rodando = false;
+            clearInterval(intervalo);
+        }
+        
+        function resetTimer() {
+            rodando = false;
+            clearInterval(intervalo);
+            segundos = 0;
+            minutos = 0;
+            horas = 0;
+            atualizarDisplay();
+        }
+        
+        function atualizarDisplay() {
+            document.getElementById("timer").innerText = 
+                `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
